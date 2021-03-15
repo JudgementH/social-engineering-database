@@ -12,7 +12,7 @@ import os
 import pymongo
 
 client = pymongo.MongoClient()
-db = client.social_work_db
+db = client.social_engineering_db
 qqmember_coll = db.qqmember
 qqgroup_coll = db.qqgroup
 
@@ -55,15 +55,15 @@ def query_qun_from_qqmember(qunNum: str):
 
 if __name__ == '__main__':
     # 入库
-    root = "E:\STUDIO\大三下\系统安全\QQ群\QunInfo"
-    files = os.listdir(root)
-    filepath_list = [os.path.join(root, file) for file in files]
-    for file in filepath_list:
-        insert_csv_to_mongodb(file, qqgroup_coll)
+    # root = "E:\STUDIO\大三下\系统安全\QQ群\GroupData"
+    # files = os.listdir(root)
+    # filepath_list = [os.path.join(root, file) for file in files]
+    # for file in filepath_list:
+    #     insert_csv_to_mongodb(file, qqmember_coll)
 
     # 查询测试
-    # l1 = query_qq_from_qqmember("3131033")
-    # print(l1)
-    #
-    # l2 = query_qun_from_qqmember("900002")
-    # print(l2)
+    l1 = query_qq_from_qqmember("3131033")
+    print(l1)
+
+    l2 = query_qun_from_qqmember("900002")
+    print(l2)
