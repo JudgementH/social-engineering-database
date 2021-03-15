@@ -8,7 +8,7 @@
             >
                 <v-col cols="6" align-self="center">
                     <div class="text-xl-h2 white--text py-8">QQ群社工库查询</div>
-                    <div class="white--text py-sm-10">由qq号查询qq群数据</div>
+                    <div class="white--text py-sm-10">查询qq号加入的QQ群，和QQ群内成员信息</div>
                 </v-col>
             </v-row>
             <v-row
@@ -16,26 +16,29 @@
                     class="green text-center">
                 <v-col cols="1">
                     <v-select
-                            :items="['qq号','qq群号']"
+                            :items="selectItem"
                             outlined
                             label="类别"
+                            color="black"
+                            v-model="searchLabel"
                     >
                     </v-select>
                 </v-col>
                 <v-col cols="4">
                     <div>
                         <v-text-field
-                                ref="input"
                                 outlined
+                                type="text"
                                 label=""
                                 prepend-inner-icon="mdi-magnify"
-                                color="white"
+                                color="black"
+                                v-model="searchText"
+                                @click:prepend="click"
                         />
                     </div>
                 </v-col>
             </v-row>
         </div>
-
         <div>
             <v-data-table
                     :headers="headers"
@@ -54,6 +57,7 @@
                 />
             </div>
         </div>
+        {
     </div>
 
 </template>
@@ -63,6 +67,9 @@
         name: "QQGroupSearch",
         data() {
             return {
+                selectItem: ['qq号', 'qq群号'],
+                searchLabel: "",
+                searchText: "",
                 page: 1,
                 pageCount: 0,
                 itemsPerPage: 5,
@@ -163,6 +170,11 @@
                 ],
             }
         },
+        methods:{
+            click(){
+                this.searchText = "213"
+            },
+        }
     }
 </script>
 

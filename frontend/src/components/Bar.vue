@@ -5,12 +5,17 @@
                 color="green"
                 dense
         >
-            <div>
+            <div class="white--text">
                 <v-toolbar-title>社工库</v-toolbar-title>
             </div>
 
             <template>
-                <v-tabs align-with-title>
+                <v-tabs
+                        align-with-title
+                        dark
+                        color="white"
+                >
+                    <v-tabs-slider color="white"/>
                     <v-tab @click="toQQGroupSearch">QQ群查询</v-tab>
                     <v-tab @click="toHelloWorld">Hello World</v-tab>
                 </v-tabs>
@@ -66,8 +71,8 @@
             toQQGroupSearch() {
                 this.$router.push({path: './'})
             },
-            toHelloWorld(){
-                this.$router.push({path:'./helloworld'})
+            toHelloWorld() {
+                this.$router.push({path: './helloworld'})
             }
         }
     }
