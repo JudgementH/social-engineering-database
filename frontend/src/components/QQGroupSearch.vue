@@ -7,19 +7,19 @@
                     style="padding-top: 100px;"
             >
                 <v-col cols="6" align-self="center">
-                    <div class="text-xl-h2 white--text py-8">QQ群社工库查询</div>
+                    <div class="text-h2 white--text py-8">QQ群社工库查询</div>
                     <div class="white--text py-sm-10">查询qq号加入的QQ群，和QQ群内成员信息</div>
                 </v-col>
             </v-row>
             <v-row
                     justify="center"
-                    class="green text-center">
+                    class="white text-center">
                 <v-col cols="1">
                     <v-select
                             :items="selectItem"
                             outlined
                             label="类别"
-                            color="black"
+                            color="green"
                             v-model="searchLabel"
                     >
                     </v-select>
@@ -31,9 +31,9 @@
                                 type="text"
                                 label=""
                                 prepend-inner-icon="mdi-magnify"
-                                color="black"
+                                color="green"
                                 v-model="searchText"
-                                @click:prepend-inner="click"
+                                @click:prepend-inner="sendMessage"
                                 @keydown.enter="sendMessage"
                         />
                     </div>
@@ -46,6 +46,7 @@
                     :items="desserts"
                     :page.sync="page"
                     :items-per-page="itemsPerPage"
+                    :loading="loading"
                     hide-default-footer
                     class="elevation-1"
                     @page-count="pageCount = $event"
@@ -58,7 +59,6 @@
                 />
             </div>
         </div>
-        {{test}}
     </div>
 
 </template>
@@ -68,116 +68,59 @@
         name: "QQGroupSearch",
         data() {
             return {
-                selectItem: ['qq号', 'qq群号'],
-                test:"",
+                selectItem: ['QQ号', 'Q群号'],
+                test: "",
                 searchLabel: "",
                 searchText: "",
                 page: 1,
                 pageCount: 0,
                 itemsPerPage: 5,
+                loading: false,
                 headers: [
-                    {
-                        text: 'Dessert (100g serving)',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    {text: 'Calories', value: 'calories'},
-                    {text: 'Fat (g)', value: 'fat'},
-                    {text: 'Carbs (g)', value: 'carbs'},
-                    {text: 'Protein (g)', value: 'protein'},
-                    {text: 'Iron (%)', value: 'iron'},
+                    {text: 'QQ群号', align: 'start', value: 'QunNum',},
+                    {text: 'QQ号', value: 'QQNum'},
+                    {text: '昵称', sortable: false, value: 'Nick'},
+                    {text: '性别', sortable: false, value: 'Gender'},
                 ],
-                desserts: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: '7%',
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: '8%',
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: '16%',
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: '0%',
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: '2%',
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: '45%',
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: '22%',
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: '6%',
-                    },
-                ],
+                desserts: [],
             }
         },
-        methods:{
-            click(){
+        methods: {
+            click() {
                 this.searchText = "213"
             },
-            sendMessage(){
-                this.test = "1111"
+            sendMessage() {
+                let thiz = this
+                this.loading = true
+                let label = ""
+                if (thiz.searchLabel === thiz.selectItem[0]) {
+                    label = 'qq'
+                } else if (thiz.searchLabel === thiz.selectItem[1]) {
+                    label = 'qqgroup'
+                } else {
+                    thiz.dialog = true
+                }
+                this.axios.get("http://127.0.0.1:2333/query/" + label + "?num=" + thiz.searchText).then((response) => {
+                    let result_data = response.data
+                    if (result_data.code !== '1') {
+                        return
+                    }
+                    let array = [];
+                    let result = result_data.res
+                    for (let i = 0; i < result.length; i++) {
+                        let element = {};
+                        element.QunNum = result[i].QunNum;
+                        element.QQNum = result[i].QQNum;
+                        element.Nick = result[i].Nick;
+                        element.Gender = result[i].Gender === '0' ? '男' : '女';
+                        array.push(element)
+                    }
+                    console.log(array)
+                    thiz.desserts = array;
+                    thiz.loading = false;
+                }).catch(() => {
+                    thiz.loading = false
+                })
             }
         }
     }

@@ -38,7 +38,7 @@ def insert_csv_to_mongodb(file_path, collection):
 
 
 def query_qq_from_qqmember(qqnum: str):
-    find_result = qqmember_coll.find({"QQNum": qqnum})
+    find_result = qqmember_coll.find({"QQNum": qqnum}, {"_id": 0})
     member_list = []
     for item in find_result:
         member_list.append(item)
@@ -46,7 +46,7 @@ def query_qq_from_qqmember(qqnum: str):
 
 
 def query_qun_from_qqmember(qunNum: str):
-    find_result = qqmember_coll.find({"QunNum": qunNum})
+    find_result = qqmember_coll.find({"QunNum": qunNum}, {"_id": 0})
     member_list = []
     for item in find_result:
         member_list.append(item)
