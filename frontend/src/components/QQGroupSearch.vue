@@ -33,7 +33,8 @@
                                 prepend-inner-icon="mdi-magnify"
                                 color="black"
                                 v-model="searchText"
-                                @click:prepend="click"
+                                @click:prepend-inner="click"
+                                @keydown.enter="sendMessage"
                         />
                     </div>
                 </v-col>
@@ -57,7 +58,7 @@
                 />
             </div>
         </div>
-        {
+        {{test}}
     </div>
 
 </template>
@@ -68,6 +69,7 @@
         data() {
             return {
                 selectItem: ['qq号', 'qq群号'],
+                test:"",
                 searchLabel: "",
                 searchText: "",
                 page: 1,
@@ -174,6 +176,9 @@
             click(){
                 this.searchText = "213"
             },
+            sendMessage(){
+                this.test = "1111"
+            }
         }
     }
 </script>
