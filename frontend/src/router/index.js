@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import QQGroupSearch from "../components/QQGroupSearch";
 import HelloWorld from "../components/HelloWorld";
+import GraphSearch from "../components/GraphSearch";
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
         path: '/helloworld',
         name: 'HelloWorld',
         component: HelloWorld
+    },
+    {
+        path: '/graph',
+        name: 'GraphSearch',
+        component: GraphSearch
     }
     // {
     //   path: '/about',

@@ -1,0 +1,35 @@
+{
+  "type": "force",
+  "categories": [
+    {
+      "name": "群主"
+    },
+    {
+      "name": "管理员"
+    },
+    {
+      "name": "一般成员"
+    },
+    {
+      "name": "查询用户"
+    }
+  ],
+  "nodes": [
+    {
+      "name": "4444444",
+      "value": 1,
+      "category": 3
+    },
+    {
+      "name": "11111111",
+      "value": 1,
+      "category": 2
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "target": 1
+    }
+  ]
+}

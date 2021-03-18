@@ -40,6 +40,7 @@
                 </v-col>
             </v-row>
         </div>
+
         <div>
             <v-data-table
                     :headers="headers"
@@ -59,6 +60,28 @@
                 />
             </div>
         </div>
+
+        <template>
+            <div class="text-center ma-2">
+                <v-snackbar
+                        v-model="snackbar"
+                        timeout="1000"
+                        color="green"
+                >
+                    没有相关信息
+                    <template v-slot:action="{ attrs }">
+                        <v-btn
+                                color="white"
+                                text
+                                v-bind="attrs"
+                                @click="snackbar = false"
+                        >
+                            ×
+                        </v-btn>
+                    </template>
+                </v-snackbar>
+            </div>
+        </template>
     </div>
 
 </template>
@@ -76,6 +99,7 @@
                 pageCount: 0,
                 itemsPerPage: 5,
                 loading: false,
+                snackbar: false,
                 headers: [
                     {text: 'QQ群号', align: 'start', value: 'QunNum',},
                     {text: 'QQ号', value: 'QQNum'},
@@ -91,6 +115,9 @@
             },
             sendMessage() {
                 let thiz = this
+                if (thiz.searchLabel === '' || thiz.searchText === '') {
+                    return
+                }
                 this.loading = true
                 let label = ""
                 if (thiz.searchLabel === thiz.selectItem[0]) {
@@ -114,6 +141,9 @@
                         element.Nick = result[i].Nick;
                         element.Gender = result[i].Gender === '0' ? '男' : '女';
                         array.push(element)
+                    }
+                    if (array.length === 0) {
+                        thiz.snackbar = true
                     }
                     console.log(array)
                     thiz.desserts = array;

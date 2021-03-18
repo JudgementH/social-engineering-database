@@ -16,7 +16,7 @@
                 >
                     <v-tabs-slider color="white"/>
                     <v-tab @click="toQQGroupSearch">QQ群查询</v-tab>
-                    <v-tab @click="toHelloWorld">Hello World</v-tab>
+                    <v-tab @click="toGraphSearch">图像化查询显示</v-tab>
                 </v-tabs>
             </template>
 
@@ -72,6 +72,9 @@
             },
             toHelloWorld() {
                 this.$router.push({path: './helloworld'})
+            },
+            toGraphSearch(){
+                this.$router.push({path:'./graph'})
             }
         }
     }
